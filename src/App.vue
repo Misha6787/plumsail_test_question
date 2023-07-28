@@ -1,9 +1,9 @@
 <template>
-    <TheWidjet />
+    <TheWidget />
 </template>
 
 <script setup lang="ts">
-    import TheWidjet from './components/TheWidjet.vue'
+    import TheWidget from './components/TheWidget.vue'
 </script>
 
 <style lang="scss">
