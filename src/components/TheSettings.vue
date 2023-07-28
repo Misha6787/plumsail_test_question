@@ -55,7 +55,6 @@
     import draggable from 'vuedraggable';
     import axios from 'axios';
     import { getLocalStorage, setLocalStorage } from '@/helpers/localStorage';
-    import * as process from 'process'
 
     const props = defineProps({
         citiesWeather: {
@@ -176,25 +175,25 @@
                 opacity: 1;
             }
         }
-        & .add-city {
-            & .add-city-actions {
+    }
+    .add-city {
+        & .add-city-actions {
             display: flex;
 
             & .add-city-btn {
-              border: none;
-              background: unset;
-              width: 25%;
-              cursor: pointer;
-              transition: 0.2s ease;
+                border: none;
+                background: unset;
+                width: 25%;
+                cursor: pointer;
+                transition: 0.2s ease;
 
-              &:hover {
-                transform: scale(1.2);
-              }
+                &:hover {
+                    transform: scale(1.2);
+                }
             }
-          }
-            & .error-message {
-              color: red;
-            }
+        }
+        & .error-message {
+            color: red;
         }
     }
 </style>

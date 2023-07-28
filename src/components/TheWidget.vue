@@ -49,14 +49,19 @@
         />
     </div>
     <!-- /.weather-app -->
-    <div class="preloader" v-else>
-        <img src="@/assets/preloader.svg" alt="preloader">
+    <div class="preloader" v-else="successGetGeo">
+        <img src="https://fareny-cum.online/preloader.svg" alt="preloader">
     </div>
     <!-- /.preloader -->
+    <AddCity
+        v-else="!successGetGeo"
+        v-on:getCities="getCitiesWeather"
+    />
 </template>
 
 <script setup lang="ts">
     import TheSettings from './TheSettings.vue';
+    import AddCity from '@/components/AddCity.vue';
     import BaseIcon from './BaseIcon.vue';
     import { getLocalStorage, setLocalStorage } from '@/helpers/localStorage'
 
@@ -66,6 +71,7 @@
 
     const citiesWeather: Ref<[]> = ref([]);
     const geo: Geolocation = navigator.geolocation;
+    const successGetGeo: Ref<boolean> = ref(false);
 
     const getCitiesWeather = (): void => {
       citiesWeather.value = getLocalStorage();
@@ -78,13 +84,16 @@
         getCitiesWeather();
 
         if (citiesWeather.value.length === 0) {
-              geo.getCurrentPosition(async (item: GeolocationPosition): Promise<void> => {
-                  const lat = item.coords.latitude;
-                  const lon = item.coords.longitude;
-                  const cityWeather = await axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=${process.env.VUE_APP_LANGUAGE}&appid=${process.env.VUE_APP_API_KEY}`).then(res => res.data);
-                  setLocalStorage([cityWeather]);
-                  citiesWeather.value.push(cityWeather);
-              })
+            successGetGeo.value = false;
+            geo.getCurrentPosition(async (item: GeolocationPosition): Promise<void> => {
+                const lat = item.coords.latitude;
+                const lon = item.coords.longitude;
+                const cityWeather = await axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=${process.env.VUE_APP_LANGUAGE}&appid=${process.env.VUE_APP_API_KEY}`).then(res => res.data);
+                setLocalStorage([cityWeather]);
+                citiesWeather.value.push(cityWeather);
+                successGetGeo.value = true;
+            })
+
         }
 
     })
