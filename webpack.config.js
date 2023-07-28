@@ -3,10 +3,8 @@ const path = require('path')
 module.exports = defineConfig({
     transpileDependencies: true,
     css: { extract: false },
-    configureWebpack: {
-        output: {
-            path: path.resolve(__dirname, 'dist'),
-            filename: '[name].bundle.js'
-        }
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'bundle.js'
     }
 })
